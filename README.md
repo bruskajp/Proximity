@@ -3,13 +3,13 @@ A location based chatting application that allows users within an area to commun
 
 ## Contributors
 ### Programmers
-James Bruska
-Hunter Quant
-Matthew Coupal
-Nick Marasco
-Anthony Ronaldo
+James Bruska,
+Hunter Quant,
+Matthew Coupal,
+Nick Marasco,
+Anthony Ronaldo,
 Benjamin Lannon
 ### Graphic Designers
-Randy Hadzor
-Lauren Walters
+Randy Hadzor,
+Lauren Walters,
 Julian King
