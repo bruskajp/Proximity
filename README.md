@@ -8,7 +8,8 @@ Hunter Quant,
 Matthew Coupal,
 Nick Marasco,
 Anthony Ronaldo,
-Benjamin Lannon
+Benjamin Lannon,
+Ally DeSantos
 ### Graphic Designers
 Randy Hadzor,
 Lauren Walters,
