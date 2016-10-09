@@ -77,12 +77,25 @@ app.controller('createController', ['$scope', function(scope) {
 }]);
 
 app.controller('nearMeController', ['$scope', function(scope) {
+  scope.loadTopics = function(){
+    
+  };
 }]);
 
 app.controller('navController', function($scope) {
   $scope.goToNearMe = function () {
     // Grab the channels near the user and display them
-    
+    $('#topics').empty();
+    $http.get('/api/getTopics', false).then(function successCallBack(response) {
+      for thing of response{
+        $('#topics').append($('<li>').text(thing.topic));
+      } 
+    }, function errorCallback(response){
+      //do nothing
+    });
+
+ 
+   
   }
 });
 

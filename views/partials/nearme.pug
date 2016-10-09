@@ -1,5 +1,7 @@
 div(ng-controller="nearMeController")
-  h2 Chat
+  h2 Topic List
   chat-box
-    ul#messages
-    
+    chat-list(ng-repeat="message in messages")
+      chat-item {{message.uid + ": " + message.data}}
+    ul#topics
+       
