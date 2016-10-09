@@ -7,6 +7,7 @@ var url = 'mongodb://proximity:proxy@fluster-shard-00-00-w7zm8.mongodb.net:27017
 // removeAll();
 // createTopic("NY","clowns");
 // createTopic("NY","clown");
+// createTopic("PA","pools");
 // decNum("NY","clowns");
 // addMessage("NY","clowns","the monster rises at 101");
 // /*getPreviousMessages("NY","clowns",function(data){
@@ -17,6 +18,7 @@ var url = 'mongodb://proximity:proxy@fluster-shard-00-00-w7zm8.mongodb.net:27017
 // 	console.log(data);
 // 	return(data);
 // });
+//
 // topicExists("NY", "clowns", function(data){
 // 	if(data.length == 0){
 // 		console.log("false");
@@ -26,14 +28,31 @@ var url = 'mongodb://proximity:proxy@fluster-shard-00-00-w7zm8.mongodb.net:27017
 // 		return true;
 // 	}
 // });
+//
+// var interests = ['sportsball', 'memes', 'food', 'dreams', 'music', 'video games', 'swag', 'free mongodb stuff', 'harambe', 'clowns', 'progrhaming'];
+// generateTopics(interests);
+// function generateTopics(topics) {
+//   MongoClient.connect(url,function(err,db){
+// 		var collection = db.collection('topics');
+//     for (var topic of topics) {
+//   		stuffs = {TOPIC: topic};
+//   		collection.insertOne(stuffs);
+//     }
+// 		db.close();
+// 	});
+// }
+//
+// getDefaultTopics(function(data) {
+//
+// });
 
-
-
+// removeAll('topics');
+// removeAll('channel');
 function addMessage(loc,topic,message){
 	//this function takes the stuff passed in and shoves it into the mongoDB database
 	//in a single json object
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.update(
 			{TOPIC: topic, LOCATION: loc},
 			{$set: {MESSAGES: message}},
@@ -44,9 +63,9 @@ function addMessage(loc,topic,message){
 	});
 }
 
-function removeAll(){
+function removeAll(collectionString){
 	MongoClient.connect(url, function(err,db){
-	 var collection = db.collection('documents');
+	 var collection = db.collection(collectionString);
 	 collection.removeMany({});
 	 db.close();
 	});
@@ -54,7 +73,7 @@ function removeAll(){
 
 function getJsonArray(loc,topic,callback){
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.find({"TOPIC":topic,"LOCATION":loc}).toArray(function(err,docs){
 			callback(docs[0]);
 		});
@@ -64,7 +83,7 @@ function getJsonArray(loc,topic,callback){
 
 function createTopic(loc, topic){
 	MongoClient.connect(url,function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		stuffs = {LOCATION:loc,TOPIC:topic,USERNUM:1,MESSAGES:null};
 		collection.insertOne(stuffs);
 		db.close();
@@ -74,7 +93,7 @@ function createTopic(loc, topic){
 
 function getPreviousMessages(loc,topic,callback){
 	MongoClient.connect(url,function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.find({LOCATION:loc, TOPIC:topic}).toArray(function(err,docs){
 			console.log(docs);
 			console.log("getPrev");
@@ -89,10 +108,10 @@ function getPreviousMessages(loc,topic,callback){
 
 function getAvalible(loc, callback){//returns all topics
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.find({LOCATION: loc}).toArray(function(err,docs){
-			console.log(docs[0]);
-			callback(docs[0]);
+      console.log(docs);
+			callback(docs);
 		});
 		db.close();
 	});
@@ -100,7 +119,7 @@ function getAvalible(loc, callback){//returns all topics
 
 function getDefaultTopics(callback){
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('topics');
 		collection.find().toArray(function(err,docs){
 			console.log(docs);
 			callback(docs);
@@ -111,7 +130,7 @@ function getDefaultTopics(callback){
 
 function topicExists(loc,topic,callback){//checks if topic's real,returns 1 if real
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.find({LOCATION: loc, TOPIC: topic}).toArray(function(err,docs){
 			callback(docs);
 		});
@@ -120,7 +139,7 @@ function topicExists(loc,topic,callback){//checks if topic's real,returns 1 if r
 }
 function decNum(loc,topic){
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.update(
 			{TOPIC: topic, LOCATION: loc},
 			{$inc: {USERNUM: -1}}
@@ -130,7 +149,7 @@ function decNum(loc,topic){
 }//decrement number of users
 function incNum(loc,topic){
 	MongoClient.connect(url, function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.update(
 			{TOPIC: topic, LOCATION: loc},
 			{$inc: {USERNUM: 1}}
@@ -140,7 +159,7 @@ function incNum(loc,topic){
 }//increses number of users subscribe to a topic by onerror
 function getNum(loc,topic,callback){
 	MongoClient.connect(url,function(err,db){
-		var collection = db.collection('documents');
+		var collection = db.collection('channels');
 		collection.find({LOCATION:loc, TOPIC:topic}).toArray(function(err,docs){
 			console.log(docs);
 			callback(docs[0].USERNUM);
