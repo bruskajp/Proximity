@@ -87,7 +87,7 @@ app.controller('navController', function($scope) {
     // Grab the channels near the user and display them
     $('#topics').empty();
     $http.get('/api/getTopics', false).then(function successCallBack(response) {
-      for thing of response{
+      for( var  thing of response) {
         $('#topics').append($('<li>').text(thing.topic));
       } 
     }, function errorCallback(response){

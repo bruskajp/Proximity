@@ -81,13 +81,17 @@ io.on('connection', function(socket){
 
   socket.on('join', function(msg){
     console.log(msg);
-    allClients.push({'uuid':socket.id, 'uid':msg.uid, 'loc':msg.loc, 'topic':msg.topic})
+    allClients.push({'uuid':socket.id, 'uid':msg.uid, 'loc':msg.loc, 'topic':msg.topic});
     console.log(socket.id);
-    if(!dbinterface.topicExists(msg.loc, msg.topic)){
-      dbinterface.createTopic(msg.loc, msg.topic)
-    }else{
-      dbinterface.incNum(msg.loc, msg.topic)
-    }
+    dbinterface.topicExists(msg.loc, msg.topic, function callback(exists){
+      console.log(exists);
+      if(exists == null){
+        dbinterface.createTopic(msg.loc, msg.topic);
+      }else{
+        dbinterface.incNum(msg.loc, msg.topic);
+      }
+      
+    });
   });
 
   socket.on('disconnect', function(){
