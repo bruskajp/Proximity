@@ -380,6 +380,9 @@ header {
     padding-top: 10px;
     padding-bottom: 10px; }
 
+ul {
+  padding-left: 0; }
+
 img {
   border-radius: 50%;
   width: 50px;

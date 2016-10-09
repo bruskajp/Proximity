@@ -31,7 +31,8 @@ app.controller('chatController', ['$scope', function(scope) {
   socket.on(trueChan, function(msg){
     //var fullMsg = {"uid":msg.uid, "date":msg.date.toString(), "data":msg.data}
     var fullMsg = msg.uid + ": " + msg.data;
-    $('#messages').append($('<li>').text(fullMsg));
+    var img = '<img src="https://avatars2.githubusercontent.com/u/8940807?v=3&s=400"/>';
+    $('#messages').append($('<chat-item>').html(img + fullMsg));
     //scope.messages.push(fullMsg);
     console.log(fullMsg);
   });
