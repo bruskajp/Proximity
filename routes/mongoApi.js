@@ -4,28 +4,28 @@ var MongoClient = require('mongodb').MongoClient
 // Connection URL
 var url = 'mongodb://proximity:proxy@fluster-shard-00-00-w7zm8.mongodb.net:27017,fluster-shard-00-01-w7zm8.mongodb.net:27017,fluster-shard-00-02-w7zm8.mongodb.net:27017/admin?ssl=true&replicaSet=fluster-shard-0&authSource=admin';
 
-// removeAll();
-// createTopic("NY","clowns");
-// createTopic("NY","clown");
-// decNum("NY","clowns");
-// addMessage("NY","clowns","the monster rises at 101");
-// /*getPreviousMessages("NY","clowns",function(data){
-// 	console.log(data);
-// 	return(data);
-// });*/
-// getAvalible("NY",function(data){
-// 	console.log(data);
-// 	return(data);
-// });
-// topicExists("NY", "clowns", function(data){
-// 	if(data.length == 0){
-// 		console.log("false");
-// 		return false;
-// 	}else{
-// 		console.log("true");
-// 		return true;
-// 	}
-// });
+removeAll();
+createTopic("NY","clowns");
+createTopic("NY","clown");
+decNum("NY","clowns");
+addMessage("NY","clowns","the monster rises at 101");
+/*getPreviousMessages("NY","clowns",function(data){
+	console.log(data);
+	return(data);
+});*/
+getAvalible("NY",function(data){
+	console.log(data);
+	return(data);
+});
+topicExists("NY", "clowns", function(data){
+	if(data.length == 0){
+		console.log("false");
+		return false;
+	}else{
+		console.log("true");
+		return true;
+	}
+});
 
 
 
@@ -148,14 +148,3 @@ function getNum(loc,topic,callback){
 	 db.close();
 	});
 }//returns number in topics
-
-module.exports.addMessage = addMessage;
-module.exports.removeAll = removeAll;
-module.exports.getJsonArray = getJsonArray;
-module.exports.createTopic = createTopic;
-module.exports.getAvalible = getAvalible;
-module.exports.getDefaultTopics = getDefaultTopics;
-module.exports.topicExists = topicExists;
-module.exports.decNum = decNum;
-module.exports.incNum = incNum;
-module.exports.getNum = getNum;
