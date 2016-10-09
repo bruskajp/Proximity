@@ -15,7 +15,7 @@
  * 3. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
  *  `em` units.
  */
-@import "https://fonts.googleapis.com/css?family=Noto+Sans";
+@import 'https://fonts.googleapis.com/css?family=Noto+Sans';
 html {
   font-family: sans-serif;
   /* 1 */
@@ -429,7 +429,6 @@ chat-item {
     color: black; }
   50% {
     height: 50px; } }
+
 chat-box {
   margin-top: 5px; }
-
-/*# sourceMappingURL=main.css.map */

@@ -1,5 +1,8 @@
 div(ng-controller="createController")
   h2 Create
-  form
-    input(type="text" name="channelName")
-    button Create
+  chat-box
+    form(ng-submit="createChannel(userName, channelName)")
+      input#clear1(name="userName" placeholder="enter name here..." type="text" ng-model="userName")
+      input#clear2(name="channelName" placeholder="enter channel here..." type="text" ng-model="channelName")
+      button(type="submit") Send
+

@@ -1,3 +1,11 @@
+var connected = false;
+var uid; //= prompt("Welcome. Please enter your name");
+var chan; //= prompt("Welcome. Please enter your channel");
+var loc = "0000:1111";
+var trueChan = ""
+var socket;
+
+
 var app = angular.module('myApp', ['ngRoute', 'ngResource']);
 app.config(function($routeProvider) {
   $routeProvider.
@@ -18,24 +26,97 @@ app.config(function($routeProvider) {
     });
 });
 
-app.controller('chatController', function($scope, $http) {
-  $scope.sendMessage = function() {
+app.controller('chatController', ['$scope', function(scope) {
+  scope.messages = [];
+  socket.on(trueChan, function(msg){
+    //var fullMsg = {"uid":msg.uid, "date":msg.date.toString(), "data":msg.data}
+    var fullMsg = msg.uid + ": " + msg.data;
+    $('#messages').append($('<li>').text(fullMsg));
+    //scope.messages.push(fullMsg);
+    console.log(fullMsg);
+  });
+  scope.sendMessage = function(data) {
     // send a message to a channel.
-  }
-});
+    var msg = []
+    var fullMsg = {"chan":trueChan, "loc":loc, "topic":chan, "uid":uid, "data":data}
+    socket.emit('msg', fullMsg);
+    //$('#m').val('');
+    console.log(trueChan);
+    return false;
+  };
+}]);
 
-app.controller('createController', function($scope, $http) {
-  $scope.createChannel = function() {
+app.controller('createController', ['$scope', function(scope) {
+  scope.createChannel = function(userName, channelName) {
     // Send the information for creating a channel and set their chat to
-    // that controller
-  }
-});
+    // that controller 
+      console.log('createController');
+      console.log(userName + "   " + channelName);
+      if(reciever.convertedLat != null && reciever.convertedLong != null){ 
+        loc = reciever.convertedLat + ":" + reciever.convertedLong; 
+        uid = userName;
+        trueChan = channelName + loc; 
+        socket = io(); 
+          
+        socket.on('connect', function(){ 
+          var joinMsg = {"loc":loc, "chan":trueChan, "topic":chan, "uid":uid}; 
+          socket.emit('join', joinMsg);  
+      
+          socket.on('join', function(msg){ 
+            uuid = msg; 
+          }); 
+        });
+        $("#clear1").val('');
+        $("#clear2").val('');
+        alert("You connected successfully"); 
+      }else{
+        alert("Alert: Your location has not been found yet.\nPlease wait a try to connect again in a few seconds");
+      }
+  };
+}]);
 
-app.controller('nearMeController', function($scope, $http) {
-});
+app.controller('nearMeController', ['$scope', function(scope) {
+}]);
 
-app.controller('navController', function($scope, $http) {
+app.controller('navController', function($scope) {
   $scope.goToNearMe = function () {
     // Grab the channels near the user and display them
+    
   }
 });
+
+
+var reciever = { 
+  lat: null,
+  long: null,
+  convertedLat: null,
+  convertedLong: null
+};
+
+function getLocation() {
+  if (navigator.geolocation) {
+    var params = {timeout: 30000};
+    navigator.geolocation.getCurrentPosition(recieveLocation, locationError, params);
+  } else {
+    alert('Geolocation not available.');
+  }
+}
+
+function recieveLocation(position) {
+  reciever.lat = position.coords.latitude;
+  reciever.long = position.coords.longitude;
+  reciever.convertedLat = Math.floor(reciever.lat*10);
+  reciever.convertedLong = Math.floor(reciever.long*10);
+}
+
+function locationError(err) {
+  if(err.code == 1) {
+    alert("Error: Access is denied!");
+  } else if( err.code == 2) {
+    alert("Error: Position is unavailable!");
+  }
+}
+
+getLocation();
+
+

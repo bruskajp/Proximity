@@ -10,6 +10,10 @@ var api = require('./routes/api');
 
 var app = express();
 
+// Socket.io initialization
+var http = require('http').Server(app)
+var io = require('socket.io').listen(http);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -24,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
-app.use('/', routes);
+//app.use('/', routes);
 app.use('/api', api);
 
 app.get('/', routes.index);
@@ -62,5 +66,57 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
 module.exports = app;
+
+
+// This is the socket.io code
+
+var allClients = [];
+
+io.on('connection', function(socket){
+  console.log('user connected: ' + socket.id);
+  socket.emit('join', socket.id);
+
+  socket.on('join', function(msg){
+    console.log(msg);
+    allClients.push({'uuid':socket.id, 'uid':msg.uid, 'loc':msg.loc, 'topic':msg.topic})
+    console.log(socket.id);
+  });
+
+  socket.on('disconnect', function(){
+    var i = 0;
+    for(var sub of allClients){
+      if(sub.uuid === socket.id){
+        allClients.splice(i,1);
+        //console.log(sub.loc + "  " + sub.topic);
+        //decNum(sub.loc, sub.topic);
+      }
+      ++i;
+    }
+    console.log("user disconnected: " + socket.id);
+    for(var sub of allClients){
+      console.log(sub);
+    }
+  });
+
+  socket.on('msg', function(msg){
+    //console.log(msg);
+    var channel = msg.chan;
+    var date = new Date();
+    console.log(date.toString());
+    var newMsg = {"uid":msg.uid, "date":date, "data":msg.data};
+    console.log(channel);
+    console.log(newMsg);
+    // addMsg(msg.loc, msg.topic, newMsg);
+    io.emit(channel, newMsg);
+  });
+});
+
+// Socket.io listen
+http.listen(3001, function(){
+  console.log('listening on *:3000');
+});
+
+
+
+
