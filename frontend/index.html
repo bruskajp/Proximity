@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/ripple.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Proximity</h1>
+    </header>
+    <menu-list>
+        <menu-item class="ripples" onclick="console.log('wat1?')">Joined</menu-item>
+        <menu-item class="ripples" onclick="console.log('wat2?')">Near Me</menu-item>
+        <menu-item class="ripples" onclick="popup_dialog()">Create</menu-item>
+    </menu-list>
+    <chat-box>
+        <chat-list>
+            <chat-item>
+                <img src="https://pbs.twimg.com/profile_images/679016101024546816/Hk3g7JTY.jpg">
+                <strong>Benjamin</strong>: Hey, I just got here. what's some good food around here?
+            </chat-item>
+            <chat-item>
+                <img src="https://avatars2.githubusercontent.com/u/8940807?v=3&s=400">
+                <strong>Hunter</strong>: What up, dog? Dinosaur BBQ is pretty slick, man.
+            </chat-item>
+            <chat-item>
+                <img src="https://pbs.twimg.com/profile_images/679016101024546816/Hk3g7JTY.jpg">
+                <strong>Benjamin</strong>: Thanks!
+            </chat-item>
+        </chat-list>
+        <chat-input>
+            <input type="text" name="text" id="text" placeholder="enter text here...">
+            <button onclick="sendMessage()"><i class="fa fa-arrow-right"></i></button>
+        </chat-input>
+    </chat-box>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <script src="./jquery-3.1.1.min.js"></script>
+    <script src="./ripple.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>
