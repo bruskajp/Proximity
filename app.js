@@ -1,3 +1,5 @@
+var dbinterface = require('./Server/mongoApi.js')
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -81,6 +83,11 @@ io.on('connection', function(socket){
     console.log(msg);
     allClients.push({'uuid':socket.id, 'uid':msg.uid, 'loc':msg.loc, 'topic':msg.topic})
     console.log(socket.id);
+    if(!topicExist(msg.loc, msg.topic)){
+      dbinterface.createTopic(msg.loc, msg.topic)
+    }else{
+      dbinterface.incNum(msg.loc, msg.topic)
+    }
   });
 
   socket.on('disconnect', function(){
@@ -89,7 +96,7 @@ io.on('connection', function(socket){
       if(sub.uuid === socket.id){
         allClients.splice(i,1);
         //console.log(sub.loc + "  " + sub.topic);
-        //decNum(sub.loc, sub.topic);
+        dbinterface.decNum(sub.loc, sub.topic);
       }
       ++i;
     }
