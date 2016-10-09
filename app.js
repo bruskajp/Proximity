@@ -20,10 +20,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 app.use('/', routes);
 app.use('/api', api);
+
+app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
+app.get('*', routes.partials);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

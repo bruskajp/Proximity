@@ -1,0 +1,9 @@
+
+div(ng-controller="chatController")
+  h2 Chat
+  chat-box
+    chat-list(ng-repeat="message in messages")
+      chat-item {{message.text}}
+    chat-input
+      input.text(name="text" placeholder="enter text here..." type="text")
+      button(ng-click="sendMessage()") Send

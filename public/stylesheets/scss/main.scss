@@ -1,0 +1,86 @@
+@import './vendor/_normalize';
+@import 'https://fonts.googleapis.com/css?family=Noto+Sans';
+body {
+    font-family: 'Noto Sans';
+}
+
+header {
+    background-color: #ffa726;
+    // z-index: 4;
+    h1 {
+        margin: 0;
+        padding-left: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+img {
+    border-radius: 50%;
+    width: 50px;
+    box-shadow: 0px 0px 4px gray;
+    margin-right: 5px;
+}
+
+chat-item {
+    display: block;
+    padding: 10px;
+}
+
+menu-list {
+    display: flex;
+    box-shadow: 0px 3px 5px -3px black;
+}
+
+menu-item {
+    background-color: #ffa726;
+    // border: 1px solid black;
+    flex: 1;
+    text-align: center;
+    line-height: 40px;
+}
+
+chat-input {
+    // static at bottom
+    // position: absolute;
+    // bottom: 5px;
+    margin: 0 5px;
+    display: flex;
+    input {
+        transition: border-bottom-color 300ms ease, border-bottom-width 300ms ease;
+        flex: 1;
+        height: 24px;
+        padding: 5px;
+        border: 0;
+        border-bottom: 1px solid grey;
+        margin-right: 5px;
+        &:focus {
+            outline: none;
+            border-bottom-color: #ffa726;
+            border-bottom-width: 3px;
+        }
+    }
+    button {
+        background: 0;
+        border: 0;
+        width: 50px;
+    }
+}
+
+chat-item {
+    animation: slidein 400ms linear 1;
+}
+
+@keyframes slidein {
+    0% {
+        height: 30px;
+        color: black;
+    }
+    50% {
+        height: 50px;
+    }
+}
+
+chat-box {
+    margin-top: 5px;
+}
